@@ -57,8 +57,9 @@ def rnd(x):
 
 def main():
     df = pd.read_csv("survey lung cancer.csv")
-    df = df.iloc[:len(df.index)//3*2]
-    toPredict = df.iloc[len(df.index)//3*2:]
+    #ne treba shuffle->data vec izmesana
+    df = df.iloc[:len(df.index)//4*3]
+    toPredict = df.iloc[len(df.index)//4*3:]
     
     target = df.pop("LUNG_CANCER")
 
@@ -96,6 +97,7 @@ def main():
     toPredict['pctg'] = toPredict['LUNG_CANCER']-toPredict['predicted']
     
     accuracy = (toPredict['pctg'].count()-toPredict.loc[toPredict['pctg']!=0,"pctg"].count())/toPredict['pctg'].count()
+    print(accuracy)
     model.save('checkpoints/model')
     toPredict.to_csv("data.csv",index=None)
 
